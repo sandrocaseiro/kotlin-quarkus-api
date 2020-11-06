@@ -1,0 +1,19 @@
+quarkus:
+  datasource:
+    db-kind: other
+    jdbc:
+      driver: oracle.jdbc.driver.OracleDriver
+      url: jdbc:oracle:thin:@//localhost:41521/xe
+    username: template
+    password: template
+  default-locale: en-US
+  flyway:
+    migrate-at-start: true
+    schemas: template
+    locations: classpath:db/migration/common,classpath:db/migration/others
+  hibernate-orm:
+    dialect: org.hibernate.dialect.Oracle12cDialect
+  http:
+    port: 8080
+    root-path: /api
+  locales: en-US,pt-BR
