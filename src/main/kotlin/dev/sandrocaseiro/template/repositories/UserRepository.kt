@@ -1,10 +1,10 @@
 package dev.sandrocaseiro.template.repositories
 
-import io.quarkus.hibernate.orm.panache.kotlin.PanacheRepository
 import dev.sandrocaseiro.template.models.domain.EUser
-import javax.enterprise.context.RequestScoped
+import io.quarkus.hibernate.orm.panache.kotlin.PanacheRepositoryBase
+import javax.enterprise.context.ApplicationScoped
 
-@RequestScoped
-class UserRepository: PanacheRepository<EUser> {
+@ApplicationScoped
+class UserRepository: PanacheRepositoryBase<EUser, Int> {
     fun findByUsername(username: String): EUser? = find("email", username).firstResult()
 }

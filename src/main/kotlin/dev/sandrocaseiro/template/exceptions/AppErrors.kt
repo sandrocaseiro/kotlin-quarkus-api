@@ -1,70 +1,68 @@
 package dev.sandrocaseiro.template.exceptions
 
+import dev.sandrocaseiro.template.localization.AppMessages
 import javax.ws.rs.core.Response.Status
 
 enum class AppErrors(
     val httpStatus: Status,
     val code: Int,
-    val messageRes: String
+    val messageFn: (AppMessages) -> String
 ) {
 
-    SUCCESS(Status.OK, 200, "error.success") {
+    SUCCESS(Status.OK, 200, { msg -> msg.success() }) {
         override fun throws() = throw AppException(this)
     },
-    SERVER_ERROR(Status.INTERNAL_SERVER_ERROR,500, "error.server") {
+    SERVER_ERROR(Status.INTERNAL_SERVER_ERROR, 500, { it.serverError() }) {
         override fun throws() = throw AppException(this)
     },
-    BAD_REQUEST_ERROR(Status.BAD_REQUEST, 400, "error.badrequest") {
+    BAD_REQUEST_ERROR(Status.BAD_REQUEST, 400, { it.badRequest() }) {
         override fun throws() = throw AppException(this)
     },
-    UNAUTHORIZED_ERROR(Status.UNAUTHORIZED,401, "error.unauthorized") {
+    UNAUTHORIZED_ERROR(Status.UNAUTHORIZED, 401, { it.unauthorized() }) {
         override fun throws() = throw AppException(this)
     },
-    FORBIDDEN_ERROR(Status.FORBIDDEN,403, "error.forbidden") {
+    FORBIDDEN_ERROR(Status.FORBIDDEN, 403, { it.forbidden() }) {
         override fun throws() = throw AppException(this)
     },
-    NOT_FOUND_ERROR(Status.NOT_FOUND,404, "error.notfound") {
+    NOT_FOUND_ERROR(Status.NOT_FOUND, 404, { it.notFound() }) {
         override fun throws() = throw AppException(this)
     },
-    METHOD_NOT_ALLOWED_ERROR(Status.METHOD_NOT_ALLOWED, 405, "error.methodnotallowed") {
+    METHOD_NOT_ALLOWED_ERROR(Status.METHOD_NOT_ALLOWED, 405, { it.methodNotAllowed() }) {
         override fun throws() = throw AppException(this)
     },
-    NOT_ACCEPTABLE_MEDIA_TYPE(Status.NOT_ACCEPTABLE, 406, "error.notacceptable") {
+    NOT_ACCEPTABLE_MEDIA_TYPE(Status.NOT_ACCEPTABLE, 406, { it.notAcceptable() }) {
         override fun throws() = throw AppException(this)
     },
-    UNSUPPORTED_MEDIA_TYPE(Status.UNSUPPORTED_MEDIA_TYPE, 415, "error.unsupportedmediatype") {
+    UNSUPPORTED_MEDIA_TYPE(Status.UNSUPPORTED_MEDIA_TYPE, 415, { it.unsupportedMediaType() }) {
         override fun throws() = throw AppException(this)
     },
-    TOKEN_EXPIRED_ERROR(Status.UNAUTHORIZED,900, "error.tokenexpired") {
+    TOKEN_EXPIRED_ERROR(Status.UNAUTHORIZED, 900, { it.expiredToken() }) {
         override fun throws() = throw AppException(this)
     },
-    INVALID_TOKEN_ERROR(Status.UNAUTHORIZED, 901, "error.invalidtoken") {
+    INVALID_TOKEN_ERROR(Status.UNAUTHORIZED, 901, { it.invalidToken() }) {
         override fun throws() = throw AppException(this)
     },
-    API_ERROR(Status.INTERNAL_SERVER_ERROR,902, "error.api") {
+    API_ERROR(Status.INTERNAL_SERVER_ERROR, 902, { it.apiError("") }) {
         override fun throws() = throw AppException(this)
     },
-    ITEM_NOT_FOUND_ERROR(Status.NOT_FOUND, 903, "error.itemnotfound") {
+    ITEM_NOT_FOUND_ERROR(Status.NOT_FOUND, 903, { it.itemNotFound() }) {
         override fun throws() = throw AppException(this)
     },
-    USERNAME_ALREADY_EXISTS(Status.BAD_REQUEST,904, "error.usernamealreadyexists") {
+    USERNAME_ALREADY_EXISTS(Status.BAD_REQUEST, 904, { it.usernameAlreadyExists() }) {
         override fun throws() = throw AppException(this)
     },
-//    BINDING_VALIDATION_ERROR(Status.UNPROCESSABLE_ENTITY, 905, "error.bindvalidation") {
-//        override fun throws() = throw AppException(this)
-//    },
-    BINDING_VALIDATION_ERROR(Status.BAD_REQUEST, 905, "error.bindvalidation") {
+    BINDING_VALIDATION_ERROR(Status.BAD_REQUEST, 905, { it.bindValidation() }) {
         override fun throws() = throw AppException(this)
     },
-    PAGEABLE_REQUEST_ERROR(Status.BAD_REQUEST, 906, "error.pageablerequest") {
+    PAGEABLE_REQUEST_ERROR(Status.BAD_REQUEST, 906, { it.pageableRequest("") }) {
         override fun throws() = throw AppException(this)
     },
-    FILTER_REQUEST_ERROR(Status.BAD_REQUEST, 907, "error.filterrequest") {
+    FILTER_REQUEST_ERROR(Status.BAD_REQUEST, 907, { it.filterRequest("") }) {
         override fun throws() = throw AppException(this)
     },
-    INVALID_CREDENTIALS(Status.BAD_REQUEST, 909, "error.invalidcredentials") {
+    INVALID_CREDENTIALS(Status.BAD_REQUEST, 909, { it.invalidCredentials() }) {
         override fun throws() = throw AppException(this)
-    },
+    }
     ;
 
     abstract fun throws(): Nothing

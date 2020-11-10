@@ -17,6 +17,7 @@ dependencies {
     implementation(enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}"))
     implementation("io.quarkus:quarkus-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 
     implementation("io.quarkus:quarkus-arc")
     implementation("io.quarkus:quarkus-config-yaml")
@@ -26,6 +27,7 @@ dependencies {
     implementation("com.oracle.database.jdbc:ojdbc8:19.6.0.0")
     implementation("io.quarkus:quarkus-flyway")
     implementation("io.quarkus:quarkus-resteasy-qute")
+    implementation("io.quarkus:quarkus-hibernate-validator")
 
 
     testImplementation("io.quarkus:quarkus-junit5")

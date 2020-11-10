@@ -1,7 +1,7 @@
 package dev.sandrocaseiro.template.exceptions
 
 class AppException: BaseException {
-    private lateinit var errorType: AppErrors
+    private val errorType: AppErrors
 
     constructor(errorType: AppErrors, e: Throwable): super(e) {
         this.errorType = errorType

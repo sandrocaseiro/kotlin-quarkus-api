@@ -17,3 +17,7 @@ quarkus:
     port: 8080
     root-path: /api
   locales: en-US,pt-BR
+  log:
+    console:
+      color: true
+      format: "%d{yyyy-MM-dd'T'HH:mm:ss.SSS} %-5p[%c{1.}] (%t) %s%n%e"
