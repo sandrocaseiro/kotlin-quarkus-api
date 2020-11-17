@@ -5,10 +5,16 @@ import dev.sandrocaseiro.template.mappers.toEUser
 import dev.sandrocaseiro.template.mappers.toListReport
 import dev.sandrocaseiro.template.models.DResponse
 import dev.sandrocaseiro.template.models.domain.EUser
+import dev.sandrocaseiro.template.models.dto.DResponseDUserCreateResp
 import dev.sandrocaseiro.template.models.dto.DUserCreateReq
-import dev.sandrocaseiro.template.models.dto.DUserCreateResp
 import dev.sandrocaseiro.template.models.dto.DUserReportResp
 import dev.sandrocaseiro.template.services.UserService
+import org.eclipse.microprofile.openapi.annotations.Operation
+import org.eclipse.microprofile.openapi.annotations.media.Content
+import org.eclipse.microprofile.openapi.annotations.media.Schema
+import org.eclipse.microprofile.openapi.annotations.responses.APIResponse
+import org.eclipse.microprofile.openapi.annotations.responses.APIResponses
+import org.eclipse.microprofile.openapi.annotations.tags.Tag
 import javax.validation.Valid
 import javax.ws.rs.GET
 import javax.ws.rs.POST
@@ -19,11 +25,19 @@ import javax.ws.rs.core.Response
 
 @Path("/")
 @Produces(MediaType.APPLICATION_JSON)
+@Tag(name = "User", description = "User Operations")
 class UserController(
     private val userService: UserService
 ) {
     @POST
     @Path("/v1/users")
+    @Operation(summary = "Create User", description = "Create a new user")
+    @APIResponses(value = [
+        APIResponse(responseCode = "201", description = "Created", content = [Content(schema = Schema(implementation = DResponseDUserCreateResp::class))]),
+        APIResponse(responseCode = "400", description = "Bad request", content = [Content(schema = Schema(implementation = DResponse::class))]),
+        APIResponse(responseCode = "422", description = "Unprocessable Entity", content = [Content(schema = Schema(implementation = DResponse::class))]),
+        APIResponse(responseCode = "500", description = "Server error", content = [Content(schema = Schema(implementation = DResponse::class))])
+    ])
     fun createUser(@Valid dto: DUserCreateReq): Response {
         val user: EUser = userService.create(dto.toEUser())
         return Response
@@ -187,10 +201,11 @@ class UserController(
 //
     @GET
     @Path("/v1/users/report")
-//    @Operation(summary = "Get all users", description = "Get a report for all users", responses = [
-//        ApiResponse(responseCode = "200", description = "OK"),
-//        ApiResponse(responseCode = "500", description = "Server error", content = [Content(schema = Schema(implementation = DResponse::class))])
-//    ])
+    @Operation(summary = "Get all users", description = "Get a report for all users")
+    @APIResponses(value = [
+        APIResponse(responseCode = "200", description = "OK"),
+        APIResponse(responseCode = "500", description = "Server error", content = [Content(schema = Schema(implementation = DResponse::class))])
+    ])
     fun usersReport(): List<DUserReportResp> {
         val users: List<EUser> = userService.findAll()
 

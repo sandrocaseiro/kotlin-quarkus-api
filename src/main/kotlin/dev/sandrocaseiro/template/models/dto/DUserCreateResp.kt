@@ -1,17 +1,20 @@
 package dev.sandrocaseiro.template.models.dto
 
+import dev.sandrocaseiro.template.models.DResponse
+import org.eclipse.microprofile.openapi.annotations.media.Schema
+
 data class DUserCreateResp(
-//    @Schema(description = "User's id", example = "1")
+    @Schema(description = "User's id", example = "1")
     val id: Int,
-//    @Schema(description = "User's name", example = "user1")
+    @Schema(description = "User's name", example = "user1")
     val name: String,
-//    @Schema(description = "User's e-mail", example = "user1@mail.com")
+    @Schema(description = "User's e-mail", example = "user1@mail.com")
     val email: String,
-//    @Schema(description = "User's Group Id", example = "1")
+    @Schema(description = "User's Group Id", example = "1")
     val groupId: Int,
-//    @Schema(description = "User's Role id's", example = "[1,2]")
+    @Schema(description = "User's Role id's", example = "[1,2]")
     val roles: List<Int>
 )
 
-//@Schema(name = "DResponse<DUserCreateResp>", description = "Response data for user created successfully")
-//class DResponseDUserCreateResp(errors: List<Error>, data: DUserCreateResp) : DResponse<DUserCreateResp>(errors, data)
+@Schema(name = "DResponseDUserCreateResp", description = "Response data for user created successfully")
+class DResponseDUserCreateResp(errors: List<Error>, data: DUserCreateResp) : DResponse<DUserCreateResp>(errors, data)

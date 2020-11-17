@@ -28,6 +28,8 @@ dependencies {
     implementation("io.quarkus:quarkus-flyway")
     implementation("io.quarkus:quarkus-resteasy-qute")
     implementation("io.quarkus:quarkus-hibernate-validator")
+    implementation("io.quarkus:quarkus-smallrye-jwt")
+    implementation("io.quarkus:quarkus-smallrye-openapi")
 
 
     testImplementation("io.quarkus:quarkus-junit5")

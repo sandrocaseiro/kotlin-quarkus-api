@@ -1,3 +1,10 @@
+jwt:
+  expiration: 18000000
+  header: Authorization
+  refresh-expiration: 18000000000000
+  secret: "!\$V?GLhtdE}HgLBkYnRw%YfJ\$dM7,DP\$6;E3T_xV28cU7D}Vwr;!TP4Nj.da" # Put secure hash here
+  tokenPrefix: Bearer
+
 quarkus:
   datasource:
     db-kind: other

@@ -1,11 +1,12 @@
 package dev.sandrocaseiro.template.models
 
 import com.fasterxml.jackson.annotation.JsonValue
+import org.eclipse.microprofile.openapi.annotations.media.Schema
 
 open class DResponse<T>(
-//    @Schema(description = "List of the operations results")
+    @Schema(description = "List of the operations results")
     val errors: List<Error>,
-//    @Schema(description = "Endpoint response data", nullable = true)
+    @Schema(description = "Endpoint response data", nullable = true)
     val data: T
 ) {
     companion object {
@@ -16,16 +17,18 @@ open class DResponse<T>(
         fun notOk(errors: List<Error>) = DResponse(errors, null)
     }
 
-//    @Schema(description = "Operation was successful")
+    @Schema(description = "Operation was successful")
     var isSuccess = errors.isEmpty() || errors.none { it.type != ErrorType.SUCCESS }
         private set
 
+    @Schema(description = "Success/Error details")
     class Error(
-//        @Schema(description = "Code of the operation result", example = "500")
+        @Schema(description = "Code of the operation result", example = "500")
+        //@Parameter(description = "description", example = "500", schema = Schema(type = SchemaType.INTEGER))
         val code: Int,
-//        @Schema(description = "Type of the operation result")
+        @Schema(description = "Type of the operation result")
         val type: ErrorType,
-//        @Schema(description = "Description of the operation result", example = "Server error")
+        @Schema(description = "Description of the operation result", example = "Server error")
         val description: String
     ) {
         companion object {
