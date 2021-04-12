@@ -9,11 +9,11 @@ import javax.persistence.MappedSuperclass
 abstract class ETrace {
     @CreationTimestamp
     @Column(name = "creation_date", updatable = false)
-    open var creationDate: LocalDateTime = LocalDateTime.now()
+    var creationDate: LocalDateTime = LocalDateTime.now()
 
     @Column(name = "update_date")
-    open var updateDate: LocalDateTime? = null
+    var updateDate: LocalDateTime? = null
 
     @Column(name = "active", nullable = false)
-    open var active: Boolean = true
+    var active: Boolean = true
 }

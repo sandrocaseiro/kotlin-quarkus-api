@@ -3,6 +3,7 @@ package dev.sandrocaseiro.template.filters
 import dev.sandrocaseiro.template.exceptions.AppErrors
 import dev.sandrocaseiro.template.localization.LocalizedMessageSource
 import dev.sandrocaseiro.template.models.DResponse
+import dev.sandrocaseiro.template.models.dto.DAuthTokenResp
 import javax.ws.rs.container.ContainerRequestContext
 import javax.ws.rs.container.ContainerResponseContext
 import javax.ws.rs.container.ContainerResponseFilter
@@ -16,7 +17,8 @@ class ApiResponseFilter : ContainerResponseFilter {
     lateinit var headers: HttpHeaders
 
     override fun filter(requestContext: ContainerRequestContext, responseContext: ContainerResponseContext) {
-        if (responseContext.hasEntity() && responseContext.entityClass != DResponse::class.java) {
+        if (responseContext.hasEntity() && responseContext.entityClass != DResponse::class.java
+            && responseContext.entityClass != DAuthTokenResp::class.java) {
             val messageSource = LocalizedMessageSource.getAppMessages(headers)
             val message = messageSource.success()
 

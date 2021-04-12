@@ -1,52 +1,51 @@
-CREATE TABLE TEMPLATE."ROLE" (
-    ID INTEGER NOT NULL,
-    NAME VARCHAR2(50) NOT NULL,
-    CREATION_DATE TIMESTAMP DEFAULT SYSDATE NOT NULL,
-    UPDATE_DATE TIMESTAMP,
-    ACTIVE CHAR(1) DEFAULT '1' NOT NULL,
-    CONSTRAINT ROLE_PK PRIMARY KEY (ID)
-);
-CREATE SEQUENCE TEMPLATE.role_seq START WITH 1;
+--CREATE TABLE public."role" (
+--	id int4 NOT NULL GENERATED ALWAYS AS IDENTITY,
+--	"name" varchar(50) NOT NULL,
+--	creation_date timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+--	update_date timestamp(0) NULL,
+--	active bool NOT NULL DEFAULT true,
+--	CONSTRAINT role_pk PRIMARY KEY (id)
+--);
 
-CREATE TABLE TEMPLATE."GROUP" (
-    ID INTEGER NOT NULL,
-    NAME VARCHAR2(50) NOT NULL,
-    CREATION_DATE TIMESTAMP DEFAULT SYSDATE NOT NULL,
-    UPDATE_DATE TIMESTAMP,
-    ACTIVE CHAR(1) DEFAULT '1' NOT NULL,
-    CONSTRAINT USER_GROUP_PK PRIMARY KEY (ID)
-);
-CREATE SEQUENCE TEMPLATE.group_seq START WITH 1;
+--CREATE TABLE public."group" (
+--	id int4 NOT NULL GENERATED ALWAYS AS IDENTITY,
+--	"name" varchar(50) NOT NULL,
+--	creation_date timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+--	update_date timestamp(0) NULL,
+--	active bool NOT NULL DEFAULT true,
+--	CONSTRAINT group_pk PRIMARY KEY (id)
+--);
 
-CREATE TABLE TEMPLATE."USER" (
-    ID INTEGER NOT NULL,
-    NAME VARCHAR2(50) NOT NULL,
-    CPF VARCHAR(11) NOT NULL,
-    EMAIL VARCHAR2(150) NOT NULL,
-    PASSWORD VARCHAR2(150) NOT NULL,
-    GROUP_ID INT NOT NULL,
-    BALANCE NUMBER(19,4) NULL,
-    CREATION_DATE TIMESTAMP DEFAULT SYSDATE NOT NULL,
-    UPDATE_DATE TIMESTAMP,
-    ACTIVE CHAR(1) DEFAULT '1' NOT NULL,
-    CONSTRAINT USER_PK PRIMARY KEY (ID),
-    CONSTRAINT USER_EMAIL_UN UNIQUE (EMAIL),
-    CONSTRAINT USER_GROUP_FK FOREIGN KEY (GROUP_ID) REFERENCES TEMPLATE."GROUP" (ID)
-);
-CREATE SEQUENCE TEMPLATE.user_seq START WITH 1;
+--CREATE TABLE public."user" (
+--	id int4 NOT NULL GENERATED ALWAYS AS IDENTITY,
+--	"name" varchar(50) NOT NULL,
+--	cpf varchar(11) NOT NULL,
+--	email varchar(150) NOT NULL,
+--	"password" varchar(150) NOT NULL,
+--	group_id int4 NOT NULL,
+--	balance numeric(19,4) NULL,
+--	creation_date timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+--	update_date timestamp(0) NULL,
+--	active bool NOT NULL DEFAULT true,
+--	CONSTRAINT user_email_un UNIQUE (email),
+--	CONSTRAINT user_pk PRIMARY KEY (id)
+--);
 
-CREATE TABLE TEMPLATE.USER_ROLE (
-    USER_ID INTEGER NOT NULL,
-    ROLE_ID INTEGER NOT NULL,
-    CONSTRAINT USER_ROLE_PK PRIMARY KEY (USER_ID, ROLE_ID)
-);
+--CREATE TABLE public.user_role (
+--	user_id int4 NOT NULL,
+--	role_id int4 NOT NULL,
+--	CONSTRAINT user_role_pk PRIMARY KEY (user_id, role_id)
+--);
+--ALTER TABLE public.user_role ADD CONSTRAINT user_role_role_fk FOREIGN KEY (role_id) REFERENCES public."role"(id);
+--ALTER TABLE public.user_role ADD CONSTRAINT user_role_user_fk FOREIGN KEY (user_id) REFERENCES public."user"(id);
 
-insert into TEMPLATE."ROLE" (id, name) values (TEMPLATE.role_seq.NEXTVAL, 'Role 1');
-insert into TEMPLATE."ROLE" (id, name) values (TEMPLATE.role_seq.NEXTVAL, 'Role 2');
-insert into TEMPLATE."ROLE" (id, name) values (TEMPLATE.role_seq.NEXTVAL, 'Role 3');
-insert into TEMPLATE."ROLE" (id, name) values (TEMPLATE.role_seq.NEXTVAL, 'Role 4');
 
-insert into TEMPLATE."GROUP" (id, name) values (TEMPLATE.group_seq.NEXTVAL, 'Group 1');
-insert into TEMPLATE."GROUP" (id, name) values (TEMPLATE.group_seq.NEXTVAL, 'Group 2');
-insert into TEMPLATE."GROUP" (id, name) values (TEMPLATE.group_seq.NEXTVAL, 'Group 4');
-insert into TEMPLATE."GROUP" (id, name) values (TEMPLATE.group_seq.NEXTVAL, 'Group 3');
+--insert into role (name) values ('Role 1');
+--insert into role (name) values ('Role 2');
+--insert into role (name) values ('Role 3');
+--insert into role (name) values ('Role 4');
+--
+--insert into group (name) values ('Group 1');
+--insert into group (name) values ('Group 2');
+--insert into group (name) values ('Group 3');
+--insert into group (name) values ('Group 4');

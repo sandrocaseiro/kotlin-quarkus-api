@@ -7,11 +7,11 @@ import javax.persistence.Table
 
 @Entity(name = "Group")
 @Table(name = "\"GROUP\"")
-open class EGroup: ETrace() {
+class EGroup: ETrace() {
     @Id
     @Column(name = "id", nullable = false)
-    open var id: Int = 0
+    var id: Int = 0
 
     @Column(name = "name", nullable = false, length = 50)
-    open var name: String = ""
+    var name: String = ""
 }

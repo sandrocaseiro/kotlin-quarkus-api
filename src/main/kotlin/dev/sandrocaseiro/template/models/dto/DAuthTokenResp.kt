@@ -1,8 +1,8 @@
-package dev.sandrocaseiro.template.security
+package dev.sandrocaseiro.template.models.dto
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
-data class TokenAuthResponse (
+data class DAuthTokenResp(
     @JsonProperty("type")
     val tokenType: String,
     @JsonProperty("expires_in")

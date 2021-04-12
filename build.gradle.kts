@@ -1,6 +1,9 @@
+group = "dev.sandrocaseiro"
+version = "1.0.0-SNAPSHOT"
+
 plugins {
-    kotlin("jvm") version "1.3.72"
-    kotlin("plugin.allopen") version "1.3.72"
+    kotlin("jvm") version "1.4.31"
+    kotlin("plugin.allopen") version "1.4.31"
     id("io.quarkus")
 }
 
@@ -15,46 +18,40 @@ val quarkusPlatformVersion: String by project
 
 dependencies {
     implementation(enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}"))
-    implementation("io.quarkus:quarkus-kotlin")
+
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+
+    implementation("io.quarkus:quarkus-kotlin")
+    implementation("io.quarkus:quarkus-config-yaml")
+    implementation("io.quarkus:quarkus-resteasy")
+    implementation("io.quarkus:quarkus-arc")
+    implementation("io.quarkus:quarkus-hibernate-validator")
+
+    implementation("io.quarkus:quarkus-resteasy-jackson")
+    implementation("io.quarkus:quarkus-jackson")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 
-    implementation("io.quarkus:quarkus-arc")
-    implementation("io.quarkus:quarkus-config-yaml")
-    implementation("io.quarkus:quarkus-resteasy-jackson")
-    implementation("io.quarkus:quarkus-hibernate-orm-panache-kotlin")
-    implementation("io.quarkus:quarkus-agroal")
-    implementation("com.oracle.database.jdbc:ojdbc8:19.6.0.0")
-    implementation("io.quarkus:quarkus-flyway")
+    implementation("io.quarkus:quarkus-hibernate-orm-panache")
+    implementation("io.quarkus:quarkus-jdbc-postgresql")
+
     implementation("io.quarkus:quarkus-resteasy-qute")
-    implementation("io.quarkus:quarkus-hibernate-validator")
-    implementation("io.quarkus:quarkus-smallrye-jwt")
     implementation("io.quarkus:quarkus-smallrye-openapi")
 
-
-    testImplementation("io.quarkus:quarkus-junit5")
-}
-
-group = "dev.sandrocaseiro"
-version = "1.0.0-SNAPSHOT"
-
-java {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
-}
-
-quarkus {
-    setOutputDirectory("$projectDir/build/classes/kotlin/main")
-}
-
-tasks.withType<io.quarkus.gradle.tasks.QuarkusDev> {
-    setSourceDir("$projectDir/src/main/kotlin")
+    implementation("io.quarkus:quarkus-smallrye-jwt")
+    implementation("io.quarkus:quarkus-smallrye-jwt-build")
 }
 
 allOpen {
     annotation("javax.ws.rs.Path")
     annotation("javax.enterprise.context.ApplicationScoped")
     annotation("io.quarkus.test.junit.QuarkusTest")
+    annotation("javax.persistence.Entity")
+    annotation("javax.persistence.MappedSuperclass")
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {

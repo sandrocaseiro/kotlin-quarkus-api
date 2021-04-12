@@ -1,7 +1,7 @@
 package dev.sandrocaseiro.template.repositories
 
 import dev.sandrocaseiro.template.models.domain.EUser
-import io.quarkus.hibernate.orm.panache.kotlin.PanacheRepositoryBase
+import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase
 import javax.enterprise.context.ApplicationScoped
 
 @ApplicationScoped

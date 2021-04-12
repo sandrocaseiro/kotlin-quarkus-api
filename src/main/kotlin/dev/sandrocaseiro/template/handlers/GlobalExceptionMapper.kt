@@ -17,7 +17,7 @@ class GlobalExceptionMapper: ExceptionMapper<Exception> {
     lateinit var headers: HttpHeaders
 
     override fun toResponse(exception: Exception): Response {
-        logger.error(exception)
+        logger.error(exception.message, exception)
         val messageSource = LocalizedMessageSource.getAppMessages(headers)
 
         return exception.toResponse(messageSource.serverError())

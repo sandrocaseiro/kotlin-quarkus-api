@@ -1,12 +1,13 @@
 package dev.sandrocaseiro.template.properties
 
-import io.quarkus.arc.config.ConfigProperties
+import org.eclipse.microprofile.config.inject.ConfigProperty
+import javax.enterprise.context.ApplicationScoped
 
-@ConfigProperties(prefix = "jwt")
-data class JwtProperties (
-    val expiration: Long,
-    val refreshExpiration: Long,
-    val secret: String,
-    val tokenPrefix: String,
-    val header: String
-)
+@ApplicationScoped
+class JwtProperties {
+    @ConfigProperty(name = "smallrye.jwt.new-token.lifespan", defaultValue = "300")
+    var expiration: Long = 0
+
+    @ConfigProperty(name = "jwt. refresh-expiration", defaultValue = "300")
+    var refreshExpiration: Long = 0
+}

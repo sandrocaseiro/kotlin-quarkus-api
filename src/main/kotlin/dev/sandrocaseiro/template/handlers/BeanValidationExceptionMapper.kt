@@ -51,5 +51,6 @@ class BeanValidationExceptionMapper: ExceptionMapper<ConstraintViolationExceptio
         return last?.name ?: nodes.toString()
     }
 
+    @Suppress("UNCHECKED_CAST")
     private fun <T> validatorAttribute(attributes: Map<String, Any>, name: String): T = attributes[name] as T
 }
