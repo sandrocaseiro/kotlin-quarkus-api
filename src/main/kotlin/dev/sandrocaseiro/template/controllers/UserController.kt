@@ -8,7 +8,6 @@ import dev.sandrocaseiro.template.models.domain.EUser
 import dev.sandrocaseiro.template.models.dto.DResponseDUserCreateResp
 import dev.sandrocaseiro.template.models.dto.DUserCreateReq
 import dev.sandrocaseiro.template.models.dto.DUserReportResp
-import dev.sandrocaseiro.template.security.UserPrincipal
 import dev.sandrocaseiro.template.services.UserService
 import org.eclipse.microprofile.openapi.annotations.Operation
 import org.eclipse.microprofile.openapi.annotations.media.Content
@@ -30,8 +29,7 @@ import javax.ws.rs.core.Response
 @RequestScoped
 @Tag(name = "User", description = "User Operations")
 class UserController(
-    private val userService: UserService,
-    private val userPrincipal: UserPrincipal?
+    private val userService: UserService
 ) {
     @POST
     @Path("/v1/users")
@@ -212,7 +210,6 @@ class UserController(
     ])
     fun usersReport(): List<DUserReportResp> {
         val users: List<EUser> = userService.findAll()
-        val t = userPrincipal?.email
 
         return users.toListReport("USD")
     }

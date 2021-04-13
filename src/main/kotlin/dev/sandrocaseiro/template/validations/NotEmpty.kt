@@ -6,7 +6,8 @@ import kotlin.reflect.KClass
 
 @MustBeDocumented
 @Constraint(validatedBy = [NotEmptyValidator::class])
-@Target(AnnotationTarget.FUNCTION, AnnotationTarget.PROPERTY_GETTER, AnnotationTarget.PROPERTY_SETTER, AnnotationTarget.FIELD)
+@Target(AnnotationTarget.FUNCTION, AnnotationTarget.PROPERTY_GETTER, AnnotationTarget.PROPERTY_SETTER, AnnotationTarget.FIELD,
+AnnotationTarget.VALUE_PARAMETER)
 @Retention
 annotation class NotEmpty(
     val message: String = "{validation.notempty}",

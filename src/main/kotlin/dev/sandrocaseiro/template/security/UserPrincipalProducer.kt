@@ -1,5 +1,6 @@
 package dev.sandrocaseiro.template.security
 
+import dev.sandrocaseiro.template.services.JwtAuthService
 import io.quarkus.security.identity.SecurityIdentity
 import org.eclipse.microprofile.jwt.JsonWebToken
 import org.jboss.logging.Logger
@@ -8,30 +9,20 @@ import javax.enterprise.inject.Produces
 
 @RequestScoped
 class UserPrincipalProducer (
+    private val jwtAuthService: JwtAuthService,
     private val identity: SecurityIdentity
 ){
-    private val logger: Logger = Logger.getLogger(UserPrincipalProducer::class.java)
-
     @Produces
     @RequestScoped
-    fun currentUserPrincipal(): UserPrincipal? {
-        logger.info("Principal")
-        if (identity.isAnonymous) {
-            return null
-        }
+    fun currentUserPrincipal(): IAuthenticationInfo {
+        if (identity.isAnonymous)
+            return AuthenticationInfo(isAuthenticated = false)
+
         if (identity.principal is JsonWebToken) {
-            return null
+            val user = jwtAuthService.parseToken(identity.principal as JsonWebToken)
+            return AuthenticationInfo(isAuthenticated = true, user)
         }
 
-        return UserPrincipal(
-            1,
-            "sandro",
-            "sandro",
-            1,
-            setOf()
-        )
-
-
-//        throw IllegalStateException("Current principal " + identity.principal + " is not a JSON web token")
+        throw IllegalStateException("Invalid user principal")
     }
 }
