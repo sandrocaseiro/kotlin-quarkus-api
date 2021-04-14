@@ -1,14 +1,18 @@
 jwt:
-  refresh-expiration: 60000
+  refresh-expiration: 90000
 
+mp:
+  jwt:
+    verify:
+      publickey:
+        location: classpath:keys/publicKey.pem
+  openapi:
+    model.reader: dev.sandrocaseiro.template.configs.SwaggerConfig
+    filter: dev.sandrocaseiro.template.configs.SwaggerConfig
 
 quarkus:
   datasource:
     db-kind: postgresql
-    jdbc:
-      url: jdbc:postgresql://localhost:32500/template
-    username: postgres
-    password: 1234
   default-locale: en-US
 #  flyway:
 #    migrate-at-start: true
@@ -16,35 +20,21 @@ quarkus:
 #    locations: classpath:db/migration/common,classpath:db/migration/others
   hibernate-orm:
     dialect: org.hibernate.dialect.PostgreSQLDialect
-    log:
-      bind-parameters: true
-      sql: true
-      format-sql: true
   http:
+    auth:
+      proactive: false
     port: 8080
-    root-path: /api
   locales: en-US,pt-BR
   log:
     min-level: TRACE
     level: INFO
-    category:
-      org.hibernate.type.descriptor.sql.BasicBinder:
-        level: TRACE
-#      io.quarkus.smallrye.jwt:
-#        level: DEBUG
-#      io.smallrye.jwt:
-#        level: DEBUG
     console:
       color: true
-#      format: "%d{yyyy-MM-dd'T'HH:mm:ss.SSS} %-5p[%c{1.}[%F]] (%t) %s%n%e"
-      format: "%d{yyyy-MM-dd'T'HH:mm:ss.SSS} %-5p[%C] (%t) %s%n%e"
+      format: "%d{yyyy-MM-dd HH:mm:ss,SSS} %-5p [%c{3.}] (%t) %s%e%n"
   resteasy:
     gzip:
       enabled: true
       max-input: 3M
-#  smallrye-jwt:
-#    enabled: false
-
 
 smallrye:
   jwt:
@@ -62,8 +52,44 @@ smallrye:
     time-to-live: 6000
     expiration.grace: 0
 
-mp:
-  jwt:
-    verify:
-      publickey:
-        location: classpath:keys/publicKey.pem
+"%dev":
+  quarkus:
+    datasource:
+      jdbc:
+        url: jdbc:postgresql://localhost:32500/template
+      username: postgres
+      password: 1234
+    hibernate-orm:
+      log:
+        bind-parameters: true
+        sql: true
+        format-sql: true
+    http:
+      root-path: /api
+    log:
+      level: INFO
+      category:
+        org.hibernate.type.descriptor.sql.BasicBinder:
+          level: TRACE
+        io.quarkus.smallrye.jwt:
+          level: INFO
+        io.smallrye.jwt:
+          level: INFO
+      console:
+        format: "%d{yyyy-MM-dd'T'HH:mm:ss.SSS} %-5p[%C] (%t) %s%n%e"
+
+"%local":
+  quarkus:
+    config:
+      profile:
+        parent: dev
+    datasource:
+      jdbc:
+        url: jdbc:postgresql://localhost:32500/template
+      username: postgres
+      password: 1234
+    hibernate-orm:
+      log:
+        bind-parameters: true
+    http:
+      root-path: /api

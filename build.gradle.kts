@@ -58,3 +58,12 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
     kotlinOptions.jvmTarget = JavaVersion.VERSION_11.toString()
     kotlinOptions.javaParameters = true
 }
+
+listOf("local", "test", "prod").forEach { env ->
+    tasks.register("quarkus${env.capitalize()}") {
+        System.setProperty("quarkus.profile", env)
+        ext["env"] = env
+
+        finalizedBy(tasks.quarkusDev)
+    }
+}

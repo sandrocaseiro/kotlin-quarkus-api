@@ -9,6 +9,7 @@ import dev.sandrocaseiro.template.models.dto.DResponseDUserCreateResp
 import dev.sandrocaseiro.template.models.dto.DUserCreateReq
 import dev.sandrocaseiro.template.models.dto.DUserReportResp
 import dev.sandrocaseiro.template.services.UserService
+import io.quarkus.security.Authenticated
 import org.eclipse.microprofile.openapi.annotations.Operation
 import org.eclipse.microprofile.openapi.annotations.media.Content
 import org.eclipse.microprofile.openapi.annotations.media.Schema
@@ -201,6 +202,7 @@ class UserController(
 //        return users.toDto { it.toGroupDto() }
 //    }
 //
+    @Authenticated
     @GET
     @Path("/v1/users/report")
     @Operation(summary = "Get all users", description = "Get a report for all users")
