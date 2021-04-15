@@ -42,8 +42,8 @@ class JwtAuthService(
         if (!isRefreshToken(jwt))
             AppErrors.INVALID_TOKEN_ERROR.throws()
 
-        val user: EUser = userRepository.findByIdOptional(jwt.getClaim<JsonNumber>(USER_ID_CLAIM).intValue())
-            .orElseThrow { AppErrors.ITEM_NOT_FOUND_ERROR.throws() }
+        val user: EUser = userRepository.findById(jwt.getClaim<JsonNumber>(USER_ID_CLAIM).intValue()) ?:
+            AppErrors.ITEM_NOT_FOUND_ERROR.throws()
 
         return generateTokens(user)
     }

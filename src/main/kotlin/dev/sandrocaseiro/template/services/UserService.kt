@@ -3,11 +3,14 @@ package dev.sandrocaseiro.template.services
 import dev.sandrocaseiro.template.exceptions.AppErrors
 import dev.sandrocaseiro.template.models.domain.EUser
 import dev.sandrocaseiro.template.repositories.UserRepository
+import dev.sandrocaseiro.template.security.IAuthenticationInfo
+import java.math.BigDecimal
 import javax.enterprise.context.RequestScoped
 import javax.transaction.Transactional
 
 @RequestScoped
 class UserService(
+    private val authInfo: IAuthenticationInfo,
     private val userRepository: UserRepository
 ) {
     @Transactional
@@ -20,55 +23,39 @@ class UserService(
         return user
     }
 
-//    @Transactional
-//    fun update(user: EUser) {
-//        val dbUser: EUser = userRepository.findById(user.id).orElseThrow { AppErrors.ITEM_NOT_FOUND_ERROR.throws() }
-//
-//        dbUser.name = user.name
-//        dbUser.cpf = user.cpf
-//        dbUser.password = user.password
-//        dbUser.groupId = user.groupId
-//        dbUser.roles = user.roles
-//
-//        userRepository.save(dbUser)
-//    }
-//
-//    @Transactional
-//    fun updateBalance(id: Int, balance: BigDecimal) {
-//        val updatedUsers: Int = userRepository.updateBalance(id, balance)
-//        if (updatedUsers == 0)
-//            AppErrors.ITEM_NOT_FOUND_ERROR.throws()
-//    }
-//
-//    fun updateBalanceApi(id: Int, balance: BigDecimal) {
-//        val resp = userApiClient.updateBalance(id, AUserUpdateReq(balance))
-//        if (resp.status() == HttpStatus.NOT_FOUND.value()) AppErrors.NOT_FOUND_ERROR.throws()
-//        else if (HttpStatus.valueOf(resp.status()).isError) AppErrors.API_ERROR.throws()
-//    }
-//
-//    @Transactional
-//    fun delete(id: Int) {
-//        if (authInfo.getId() == id)
-//            throw AppException.of(AppErrors.FORBIDDEN_ERROR)
-//
-//        val user: EUser = userRepository.findById(id).orElseThrow { AppErrors.NOT_FOUND_ERROR.throws() }
-//        user.active = false
-//
-//        userRepository.save(user)
-//    }
-//
+    @Transactional
+    fun update(user: EUser) {
+        val dbUser: EUser = userRepository.findById(user.id) ?: AppErrors.ITEM_NOT_FOUND_ERROR.throws()
+
+        dbUser.name = user.name
+        dbUser.cpf = user.cpf
+        dbUser.password = user.password
+        dbUser.groupId = user.groupId
+        dbUser.roles = user.roles
+
+        userRepository.persist(dbUser)
+    }
+
+    @Transactional
+    fun updateBalance(id: Int, balance: BigDecimal) {
+        val updatedUsers: Int = userRepository.updateBalance(id, balance)
+        if (updatedUsers == 0)
+            AppErrors.ITEM_NOT_FOUND_ERROR.throws()
+    }
+
+    @Transactional
+    fun delete(id: Int) {
+        if (authInfo.id == id)
+            AppErrors.FORBIDDEN_ERROR.throws()
+
+        val user: EUser = userRepository.findById(id) ?: AppErrors.NOT_FOUND_ERROR.throws()
+        user.active = false
+
+        userRepository.persist(user)
+    }
+
 //    fun findById(id: Int): JUserGroup = userRepository.findOneById(id) ?: AppErrors.ITEM_NOT_FOUND_ERROR.throws()
-//
-//    fun findByIdApi(id: Int): SUser {
-//        val resp = userApiClient.getById(id)
-//        if (resp.status() == HttpStatus.NOT_FOUND.value()) AppErrors.NOT_FOUND_ERROR.throws()
-//        else if (HttpStatus.valueOf(resp.status()).isError) AppErrors.API_ERROR.throws()
-//
-//        val userResp = resp.body().deserialize<AResponse<AUserByIdResp>>()!!
-//
-//        return SUser(userResp.data!!.id, userResp.data.name, userResp.data.email)
-//    }
-//
+
 //    fun searchByName(name: String): List<EUser> =  userRepository.searchByName(name)
 //
 //    fun searchByCpf(cpf: String): List<EUser> = userRepository.searchByCpf(cpf)

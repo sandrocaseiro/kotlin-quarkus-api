@@ -26,7 +26,7 @@ quarkus:
     port: 8080
   locales: en-US,pt-BR
   log:
-    min-level: TRACE
+    min-level: INFO
     level: INFO
     console:
       color: true
@@ -67,6 +67,7 @@ smallrye:
     http:
       root-path: /api
     log:
+      min-level: TRACE
       level: INFO
       category:
         org.hibernate.type.descriptor.sql.BasicBinder:
@@ -93,3 +94,5 @@ smallrye:
         bind-parameters: true
     http:
       root-path: /api
+    log:
+      min-level: TRACE
