@@ -1,3 +1,9 @@
+app:
+  name: ${name}
+  description: ${description}
+  version: ${version}
+  id: ID-99999
+
 jwt:
   refresh-expiration: 90000
 
@@ -14,16 +20,26 @@ quarkus:
   datasource:
     db-kind: postgresql
   default-locale: en-US
-#  flyway:
-#    migrate-at-start: true
-#    schemas: template
-#    locations: classpath:db/migration/common,classpath:db/migration/others
+  health:
+    extensions:
+      enabled: false
+    openapi:
+      included: false
   hibernate-orm:
     dialect: org.hibernate.dialect.PostgreSQLDialect
   http:
     auth:
       proactive: false
+    cors:
+      ~: true
+      origins: "*"
+      headers: "*"
+      exposed-headers: Content-Disposition,Content-Length,Content-Type
+      methods: GET,POST,PUT,DELETE,OPTIONS
+      access-control-max-age: 24H
     port: 8080
+  liquibase:
+    migrate-at-start: false
   locales: en-US,pt-BR
   log:
     min-level: INFO
@@ -35,6 +51,10 @@ quarkus:
     gzip:
       enabled: true
       max-input: 3M
+  smallrye-health:
+    root-path: _monitor
+    liveness-path: info
+
 
 smallrye:
   jwt:
@@ -59,6 +79,11 @@ smallrye:
         url: jdbc:postgresql://localhost:32500/template
       username: postgres
       password: 1234
+    health:
+      extensions:
+        enabled: true
+      openapi:
+        included: true
     hibernate-orm:
       log:
         bind-parameters: true
@@ -66,6 +91,9 @@ smallrye:
         format-sql: true
     http:
       root-path: /api
+    liquibase:
+      migrate-at-start: true
+      default-schema-name: public
     log:
       min-level: TRACE
       level: INFO
@@ -79,6 +107,20 @@ smallrye:
       console:
         format: "%d{yyyy-MM-dd'T'HH:mm:ss.SSS} %-5p[%C] (%t) %s%n%e"
 
+"%test":
+  quarkus:
+    container-image:
+      build: false
+    datasource:
+      db-kind: h2
+      devservices: false
+      jdbc:
+        url: jdbc:h2:mem:testdb;MODE=PostgreSQL;
+      username: postgres
+      password: 1234
+    liquibase:
+      migrate-at-start: true
+
 "%local":
   quarkus:
     config:
@@ -89,6 +131,11 @@ smallrye:
         url: jdbc:postgresql://localhost:32500/template
       username: postgres
       password: 1234
+    health:
+      extensions:
+        enabled: true
+      openapi:
+        included: true
     hibernate-orm:
       log:
         bind-parameters: true

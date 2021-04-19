@@ -1,0 +1,112 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext
+    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog
+    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <property name="numeric.type" value="numeric(19,4)" dbms="postgresql" />
+    <property name="numeric.type" value="decimal(19,4)" dbms="h2" />
+
+    <changeSet author="sandrocaseiro" id="1">
+        <createTable tableName="role">
+            <column name="id" type="integer" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="role_pk" />
+            </column>
+            <column name="name" type="varchar(50)">
+                <constraints nullable="false" />
+            </column>
+            <column name="creation_date" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false" />
+            </column>
+            <column name="update_date" type="timestamp" />
+            <column name="active" type="boolean" defaultValue="true">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+        <createTable tableName="group">
+            <column name="id" type="integer" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="group_pk" />
+            </column>
+            <column name="name" type="varchar(50)">
+                <constraints nullable="false" />
+            </column>
+            <column name="creation_date" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false" />
+            </column>
+            <column name="update_date" type="timestamp" />
+            <column name="active" type="boolean" defaultValue="true">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+        <createTable tableName="user">
+            <column name="id" type="integer" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="user_pk" />
+            </column>
+            <column name="name" type="varchar(50)">
+                <constraints nullable="false" />
+            </column>
+            <column name="cpf" type="varchar(11)">
+                <constraints nullable="false" />
+            </column>
+            <column name="email" type="varchar(150)">
+                <constraints
+                        nullable="false"
+                        unique="true"
+                        uniqueConstraintName="user_email_un" />
+            </column>
+            <column name="group_id" type="integer">
+                <constraints
+                        nullable="false"
+                        foreignKeyName="user_group_fk"
+                        referencedTableName="group"
+                        referencedColumnNames="id" />
+            </column>
+            <column name="balance" type="${numeric.type}" />
+            <column name="creation_date" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false" />
+            </column>
+            <column name="update_date" type="timestamp" />
+            <column name="active" type="boolean" defaultValue="true">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+        <createTable tableName="user_role">
+            <column name="user_id" type="integer">
+                <constraints
+                        nullable="false"
+                        foreignKeyName="user_role_user_fk"
+                        referencedTableName="user"
+                        referencedColumnNames="id" />
+            </column>
+            <column name="role_id" type="integer">
+                <constraints
+                        nullable="false"
+                        foreignKeyName="user_role_role_fk"
+                        referencedTableName="role"
+                        referencedColumnNames="id" />
+            </column>
+        </createTable>
+        <addPrimaryKey tableName="user_role" columnNames="user_id,role_id" constraintName="user_role_pk" />
+        <insert tableName="role">
+            <column name="name">Role 1</column>
+        </insert>
+        <insert tableName="role">
+            <column name="name">Role 2</column>
+        </insert>
+        <insert tableName="role">
+            <column name="name">Role 3</column>
+        </insert>
+        <insert tableName="role">
+            <column name="name">Role 4</column>
+        </insert>
+        <insert tableName="group">
+            <column name="name">Admin</column>
+        </insert>
+        <insert tableName="group">
+            <column name="name">User</column>
+        </insert>
+    </changeSet>
+</databaseChangeLog>

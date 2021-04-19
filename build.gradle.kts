@@ -1,10 +1,14 @@
+import org.jetbrains.kotlin.cli.jvm.main
+
 group = "dev.sandrocaseiro"
 version = "1.0.0-SNAPSHOT"
+description = "Kotlin Quarkus Template API"
 
 plugins {
     kotlin("jvm") version "1.4.31"
     kotlin("plugin.allopen") version "1.4.31"
     id("io.quarkus")
+    id("org.liquibase.gradle") version "2.0.4"
 }
 
 repositories {
@@ -41,6 +45,7 @@ dependencies {
     implementation("io.quarkus:quarkus-jackson")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 
+    implementation("io.quarkus:quarkus-liquibase")
     implementation("io.quarkus:quarkus-hibernate-orm-panache-kotlin")
     implementation("io.quarkus:quarkus-jdbc-postgresql")
 
@@ -50,15 +55,23 @@ dependencies {
     implementation("io.quarkus:quarkus-smallrye-jwt")
     implementation("io.quarkus:quarkus-smallrye-jwt-build")
 
+    implementation("io.quarkus:quarkus-smallrye-health")
+
     testImplementation("io.quarkus:quarkus-junit5")
-    testImplementation("com.h2database", "h2")
+    testImplementation("io.quarkus:quarkus-jdbc-h2")
     testImplementation("org.assertj", "assertj-core", assertjVersion)
     testImplementation("org.junit.vintage", "junit-vintage-engine", junitVintageVersion)
     testImplementation("io.cucumber", "cucumber-java", cucumberVersion)
     testImplementation("io.cucumber", "cucumber-junit", cucumberVersion)
     testImplementation("io.rest-assured:rest-assured")
-//    testImplementation("com.github.tomakehurst", "wiremock-jre8", wiremockVersion)
-    //testImplementation("org.codehaus.groovy", "groovy-json", "2.4.20")
+    testImplementation("com.github.tomakehurst", "wiremock-jre8", wiremockVersion)
+
+    liquibaseRuntime("org.liquibase:liquibase-gradle-plugin:2.0.4")
+    liquibaseRuntime("org.liquibase:liquibase-core:4.3.2")
+    liquibaseRuntime("com.h2database:h2:1.4.197")
+    liquibaseRuntime("org.postgresql:postgresql:42.2.19")
+    liquibaseRuntime("ch.qos.logback:logback-core:1.2.3")
+    liquibaseRuntime("ch.qos.logback:logback-classic:1.2.3")
 }
 
 allOpen {
@@ -104,4 +117,22 @@ listOf("local", "test", "prod").forEach { env ->
 tasks.register<Test>("integration-test") {
     testClassesDirs = sourceSets["integrationTest"].output.classesDirs
     classpath = sourceSets["integrationTest"].runtimeClasspath
+}
+
+tasks.processResources {
+    filesMatching("**/application.yml") {
+        expand(project.properties)
+    }
+}
+
+liquibase {
+    activities.register("dev") {
+        arguments = mapOf(
+            "changeLogFile" to "src/main/resources/db/changeLog.xml",
+            "url" to "jdbc:postgresql://localhost:32500/template",
+            "username" to "postgres",
+            "password" to "1234",
+            "outputFile" to "out.sql"
+        )
+    }
 }

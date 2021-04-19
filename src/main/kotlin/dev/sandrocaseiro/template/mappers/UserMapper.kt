@@ -2,9 +2,8 @@ package dev.sandrocaseiro.template.mappers
 
 import dev.sandrocaseiro.template.models.domain.ERole
 import dev.sandrocaseiro.template.models.domain.EUser
-import dev.sandrocaseiro.template.models.dto.DUserCreateReq
-import dev.sandrocaseiro.template.models.dto.DUserCreateResp
-import dev.sandrocaseiro.template.models.dto.DUserReportResp
+import dev.sandrocaseiro.template.models.dto.*
+import dev.sandrocaseiro.template.models.jpa.JUserGroup
 
 fun DUserCreateReq.toEUser() = EUser().also {
     it.name = this.name!!
@@ -15,14 +14,14 @@ fun DUserCreateReq.toEUser() = EUser().also {
     it.roles = this.roles!!.map { r -> ERole().apply { id = r } }
 }
 
-//fun DUserUpdateReq.toEUser(id: Int) = EUser().also {
-//    it.id = id
-//    it.name = this.name!!
-//    it.cpf = this.cpf!!
-//    it.password = this.password!!
-//    it.groupId = this.groupId!!
-//    it.roles = this.roles!!.map { r -> ERole().apply { this.id = r } }
-//}
+fun DUserUpdateReq.toEUser(id: Int) = EUser().also {
+    it.id = id
+    it.name = this.name!!
+    it.cpf = this.cpf!!
+    it.password = this.password!!
+    it.groupId = this.groupId!!
+    it.roles = this.roles!!.map { r -> ERole().apply { this.id = r } }
+}
 
 fun EUser.toCreateResp() = DUserCreateResp(
     id = this.id,
@@ -32,35 +31,29 @@ fun EUser.toCreateResp() = DUserCreateResp(
     roles = this.roles.map { it.id }
 )
 
-//fun EUser.toGroupDto() = DUserGroupResp(
-//    id = this.id,
-//    name = this.name,
-//    email = this.email,
-//    group = this.group?.name ?: ""
-//)
+fun EUser.toGroupDto() = DUserGroupResp(
+    id = this.id,
+    name = this.name,
+    email = this.email,
+    group = this.group?.name ?: ""
+)
 
-//fun List<EUser>.toListGroupDto() = this.map { it.toGroupDto() }
-//
-//fun SUser.toUserResp() = DUserResp(
-//    id = this.id,
-//    name = this.name,
-//    email = this.email
-//)
-//
-//fun EUser.toUserDto() = DUserResp (
-//    id = this.id,
-//    name = this.name,
-//    email = this.email
-//)
+fun List<EUser>.toListGroupDto() = this.map { it.toGroupDto() }
 
-//fun List<EUser>.toListUserDto() = this.map { it.toUserDto() }
-//
-//fun JUserGroup.toGroupDto() = DUserGroupResp(
-//    id = this.getId(),
-//    name = this.getName(),
-//    email = this.getEmail(),
-//    group = this.getGroup()
-//)
+fun EUser.toUserDto() = DUserResp (
+    id = this.id,
+    name = this.name,
+    email = this.email
+)
+
+fun List<EUser>.toListUserDto() = this.map { it.toUserDto() }
+
+fun JUserGroup.toGroupDto() = DUserGroupResp(
+    id = this.id,
+    name = this.name,
+    email = this.email,
+    group = this.group
+)
 
 fun EUser.toReportResp(currency: String) = DUserReportResp(
     id = this.id,

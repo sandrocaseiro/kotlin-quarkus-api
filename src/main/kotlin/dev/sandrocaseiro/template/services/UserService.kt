@@ -2,8 +2,11 @@ package dev.sandrocaseiro.template.services
 
 import dev.sandrocaseiro.template.exceptions.AppErrors
 import dev.sandrocaseiro.template.models.domain.EUser
+import dev.sandrocaseiro.template.models.jpa.JUserGroup
 import dev.sandrocaseiro.template.repositories.UserRepository
 import dev.sandrocaseiro.template.security.IAuthenticationInfo
+import io.quarkus.hibernate.orm.panache.kotlin.PanacheQuery
+import io.quarkus.panache.common.Page
 import java.math.BigDecimal
 import javax.enterprise.context.RequestScoped
 import javax.transaction.Transactional
@@ -54,15 +57,13 @@ class UserService(
         userRepository.persist(user)
     }
 
-//    fun findById(id: Int): JUserGroup = userRepository.findOneById(id) ?: AppErrors.ITEM_NOT_FOUND_ERROR.throws()
+    fun findById(id: Int): JUserGroup = userRepository.findOneById(id) ?: AppErrors.ITEM_NOT_FOUND_ERROR.throws()
 
-//    fun searchByName(name: String): List<EUser> =  userRepository.searchByName(name)
-//
-//    fun searchByCpf(cpf: String): List<EUser> = userRepository.searchByCpf(cpf)
-//
-//    fun findByGroup(groupId: Int): List<EUser> = userRepository.findByGroup(groupId)
-//
-//    fun findAllActive(pageable: Pageable): Page<EUser> = userRepository.findAllActive(pageable)
+    fun searchByName(name: String): List<EUser> =  userRepository.searchByName(name)
+
+    fun searchByCpf(cpf: String): List<EUser> = userRepository.searchByCpf(cpf)
+
+    fun findAllActive(page: Page): PanacheQuery<EUser> = userRepository.findAllActive(page)
 
     fun findAll(): List<EUser> = userRepository.findAll().list()
 }
