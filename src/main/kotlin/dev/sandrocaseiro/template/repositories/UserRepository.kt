@@ -16,10 +16,7 @@ class UserRepository: PanacheRepositoryBase<EUser, Int> {
     fun findByUsername(username: String): EUser? = find("email", username).firstResult()
 
     fun findOneById(id: Int): JUserGroup? =
-        find(
-            "select u.id as id, u.name as name, u.email as email, u.group.name as group from User u where u.id = :id",
-            mapOf("id" to id)
-        )
+        find("id", id)
         .project(JUserGroup::class.java).firstResult()
 
     fun searchByName(name: String): List<EUser> =

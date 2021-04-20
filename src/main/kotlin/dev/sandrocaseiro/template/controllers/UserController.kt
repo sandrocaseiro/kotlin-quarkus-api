@@ -59,7 +59,7 @@ class UserController(
         APIResponse(responseCode = "422", description = "Unprocessable Entity", content = [Content(schema = Schema(implementation = DResponse::class))]),
         APIResponse(responseCode = "500", description = "Server error", content = [Content(schema = Schema(implementation = DResponse::class))])
     ])
-    fun updateUser(@Parameter(description = "User's id", `in` = ParameterIn.PATH, required = true, example = "1") id: Int,
+    fun updateUser(@Parameter(description = "User's id", `in` = ParameterIn.PATH, required = true, example = "1") @PathParam("id") id: Int,
                    @Valid dto: DUserUpdateReq
     ): Response {
         userService.update(dto.toEUser(id))
@@ -156,7 +156,7 @@ class UserController(
         APIResponse(responseCode = "404", description = "Not found", content = [Content(schema = Schema(implementation = DResponse::class))]),
         APIResponse(responseCode = "500", description = "Server error", content = [Content(schema = Schema(implementation = DResponse::class))])
     ])
-    fun findUser(@Parameter(description = "User's id", `in` = ParameterIn.PATH, required = true, example = "1") id: Int): DUserGroupResp {
+    fun findUser(@Parameter(description = "User's id", `in` = ParameterIn.PATH, required = true, example = "1") @PathParam("id") id: Int): DUserGroupResp {
         val user: JUserGroup = userService.findById(id)
 
         return user.toGroupDto()

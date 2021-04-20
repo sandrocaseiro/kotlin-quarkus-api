@@ -5,10 +5,12 @@ import dev.sandrocaseiro.template.models.dto.DAuthTokenResp
 import dev.sandrocaseiro.template.models.services.SAuth
 import dev.sandrocaseiro.template.services.JwtAuthService
 import dev.sandrocaseiro.template.validations.NotEmpty
+import javax.annotation.security.PermitAll
 import javax.enterprise.context.RequestScoped
 import javax.ws.rs.*
 import javax.ws.rs.core.MediaType
 
+@PermitAll
 @Path("/")
 @Produces(MediaType.APPLICATION_JSON)
 @RequestScoped

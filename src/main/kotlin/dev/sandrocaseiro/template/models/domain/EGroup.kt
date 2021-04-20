@@ -1,14 +1,12 @@
 package dev.sandrocaseiro.template.models.domain
 
-import javax.persistence.Column
-import javax.persistence.Entity
-import javax.persistence.Id
-import javax.persistence.Table
+import javax.persistence.*
 
 @Entity(name = "Group")
-@Table(name = "\"GROUP\"")
+@Table(name = "\"group\"")
 class EGroup: ETrace() {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     var id: Int = 0
 

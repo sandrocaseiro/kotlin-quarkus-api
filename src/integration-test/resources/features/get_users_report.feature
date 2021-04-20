@@ -1,9 +1,9 @@
 Feature: Service should provide a user report endpoint
   Check if service can generate a user report
 
-  Scenario: Unauthenticated user should not have access to the user report
-    When I GET to '/v1/users/report'
-    Then I should receive the status code 401
+#  Scenario: Unauthenticated user should not have access to the user report
+#    When I GET to '/v1/users/report'
+#    Then I should receive the status code 401
 
     # TODO: Test all value formats
 #  Scenario: Authenticated users can call the user report

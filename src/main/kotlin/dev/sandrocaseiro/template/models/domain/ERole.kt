@@ -1,14 +1,12 @@
 package dev.sandrocaseiro.template.models.domain
 
-import javax.persistence.Column
-import javax.persistence.Entity
-import javax.persistence.Id
-import javax.persistence.Table
+import javax.persistence.*
 
 @Entity(name = "Role")
-@Table(name = "ROLE")
+@Table(name = "role")
 class ERole : ETrace() {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     var id: Int = 0
 

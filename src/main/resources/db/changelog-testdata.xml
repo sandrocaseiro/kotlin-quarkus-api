@@ -1,0 +1,72 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext
+    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog
+    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet author="sandrocaseiro" id="999">
+        <insert tableName="user">
+            <column name="name">User 1</column>
+            <column name="cpf">35636471009</column>
+            <column name="email">user1@mail.com</column>
+            <column name="password">1234</column>
+            <column name="group_id">1</column>
+            <column name="balance">50</column>
+        </insert>
+        <insert tableName="user">
+            <column name="name">User 2</column>
+            <column name="cpf">03529095010</column>
+            <column name="email">user2@mail.com</column>
+            <column name="password">1234</column>
+            <column name="group_id">2</column>
+            <column name="balance">100</column>
+        </insert>
+        <insert tableName="user">
+            <column name="name">User 3</column>
+            <column name="cpf">50499387082</column>
+            <column name="email">user3@mail.com</column>
+            <column name="password">1234</column>
+            <column name="group_id">1</column>
+            <column name="balance">25.5</column>
+        </insert>
+        <insert tableName="user">
+            <column name="name">User 4</column>
+            <column name="cpf">56887214059</column>
+            <column name="email">user4@mail.com</column>
+            <column name="password">1234</column>
+            <column name="group_id">2</column>
+            <column name="balance">10</column>
+        </insert>
+        <insert tableName="user_role">
+            <column name="user_id">1</column>
+            <column name="role_id">1</column>
+        </insert>
+        <insert tableName="user_role">
+            <column name="user_id">1</column>
+            <column name="role_id">2</column>
+        </insert>
+        <insert tableName="user_role">
+            <column name="user_id">2</column>
+            <column name="role_id">2</column>
+        </insert>
+        <insert tableName="user_role">
+            <column name="user_id">2</column>
+            <column name="role_id">3</column>
+        </insert>
+        <insert tableName="user_role">
+            <column name="user_id">3</column>
+            <column name="role_id">3</column>
+        </insert>
+        <insert tableName="user_role">
+            <column name="user_id">3</column>
+            <column name="role_id">4</column>
+        </insert>
+        <insert tableName="user_role">
+            <column name="user_id">4</column>
+            <column name="role_id">4</column>
+        </insert>
+    </changeSet>
+</databaseChangeLog>

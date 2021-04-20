@@ -9,8 +9,13 @@ class LocalizedMessageSource {
         fun getAppMessages(headers: HttpHeaders): AppMessages {
             val language = headers.acceptableLanguages.firstOrNull()?.language
 
-            return if (language.isNullOrBlank()) MessageBundles.get(AppMessages::class.java)
-                else MessageBundles.get(AppMessages::class.java, Localized.Literal.of(language))
+            return try {
+                if (language.isNullOrBlank()) MessageBundles.get(AppMessages::class.java)
+                    else MessageBundles.get(AppMessages::class.java, Localized.Literal.of(language))
+            }
+            catch (e: IllegalStateException) {
+                MessageBundles.get(AppMessages::class.java)
+            }
         }
     }
 }
