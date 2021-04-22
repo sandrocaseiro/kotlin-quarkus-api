@@ -7,7 +7,7 @@ import javax.validation.constraints.Min
 
 @Schema(description = "Model for updating user's balance")
 data class DUserBalanceUpdateReq (
-    @NotEmpty @get:Min(0)
+    @get:NotEmpty @get:Min(0)
     @Schema(description = "User's new balance", required = true, example = "55.79")
     val balance: BigDecimal? = null
 )

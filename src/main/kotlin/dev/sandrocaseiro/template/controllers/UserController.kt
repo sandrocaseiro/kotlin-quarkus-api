@@ -78,7 +78,7 @@ class UserController(
         APIResponse(responseCode = "422", description = "Unprocessable Entity", content = [Content(schema = Schema(implementation = DResponse::class))]),
         APIResponse(responseCode = "500", description = "Server error", content = [Content(schema = Schema(implementation = DResponse::class))])
     ])
-    fun updateUserBalance(@Parameter(description = "User's id", `in` = ParameterIn.PATH, required = true, example = "1") id: Int,
+    fun updateUserBalance(@Parameter(description = "User's id", `in` = ParameterIn.PATH, required = true, example = "1") @PathParam("id") id: Int,
                           @Valid dto: DUserBalanceUpdateReq
     ): Response {
         userService.updateBalance(id, dto.balance!!)

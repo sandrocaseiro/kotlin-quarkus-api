@@ -11,11 +11,13 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponses
 import org.eclipse.microprofile.openapi.annotations.tags.Tag
+import javax.annotation.security.PermitAll
 import javax.enterprise.context.RequestScoped
 import javax.ws.rs.Path
 import javax.ws.rs.Produces
 import javax.ws.rs.core.MediaType
 
+@PermitAll
 @Path("/")
 @Produces(MediaType.APPLICATION_JSON)
 @RequestScoped

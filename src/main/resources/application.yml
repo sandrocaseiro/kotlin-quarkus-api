@@ -1,7 +1,11 @@
+log:
+  full-format: "%d{yyyy-MM-dd HH:mm:ss,SSS} %-5p [%c{3.}] (%t) %s%e%n"
+  prod-format: "%d{yyyy-MM-dd HH:mm:ss,SSS} %-5p [%c{3.}] (%t) project_id=%X{project_id} | user=%X{user} | action=%X{action} | activity=%X{activity} | src_ip=%X{src_ip} | applog=%X{applog} | message=%m%n"
+
 app:
-  name: ${name}
-  description: ${description}
-  version: ${version}
+  name: @name@
+  description: @description@
+  version: @version@
   id: ID-99999
 
 jwt:
@@ -37,6 +41,7 @@ quarkus:
       exposed-headers: Content-Disposition,Content-Length,Content-Type
       methods: GET,POST,PUT,DELETE,OPTIONS
       access-control-max-age: 24H
+    enable-compression: true
     port: 8080
   liquibase:
     change-log: db/changelog.xml
@@ -47,7 +52,18 @@ quarkus:
     level: INFO
     console:
       color: true
-      format: "%d{yyyy-MM-dd HH:mm:ss,SSS} %-5p [%c{3.}] (%t) %s%e%n"
+      format: ${log.full-format}
+    handler:
+      console:
+        APP_LOG:
+          enable: true
+          level: INFO
+          color: true
+          format: ${log.prod-format}
+    category:
+      dev.sandrocaseiro.template:
+        level: INFO
+        handlers: APP_LOG
   resteasy:
     gzip:
       enabled: true
@@ -131,6 +147,14 @@ smallrye:
       migrate-at-start: true
       contexts: test
 
+"%prod":
+  quarkus:
+    log:
+      file:
+        enabled: true
+        format: ${log.prod-format}
+        path: /appserver/logs/api-template/api-template.log
+        file-suffix: .yyyy-MM-dd
 "%local":
   quarkus:
     config:

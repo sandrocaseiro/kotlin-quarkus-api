@@ -121,7 +121,8 @@ tasks.register<Test>("integration-test") {
 
 tasks.processResources {
     filesMatching("**/application.yml") {
-        expand(project.properties)
+        val props = project.properties.filter { it.value != null && it.value is String }
+        filter(org.apache.tools.ant.filters.ReplaceTokens::class, "tokens" to props)
     }
 }
 
