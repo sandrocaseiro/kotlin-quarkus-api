@@ -2,6 +2,7 @@ package dev.sandrocaseiro.template.handlers
 
 import dev.sandrocaseiro.template.exceptions.AppErrors
 import dev.sandrocaseiro.template.exceptions.AppException
+import dev.sandrocaseiro.template.exceptions.BaseException
 import dev.sandrocaseiro.template.localization.AppMessages
 import dev.sandrocaseiro.template.localization.LocalizedMessageSource
 import dev.sandrocaseiro.template.models.DResponse
@@ -23,6 +24,8 @@ abstract class BaseExceptionMapper<T: Throwable>: ExceptionMapper<T> {
 
     override fun toResponse(exception: T): Response {
         logger.error("Exception Handler", exception)
+        if (exception is BaseException)
+            return AppException.of(exception.error).toResponse(messageSource)
 
         return AppException.of(error).toResponse(messageSource)
     }

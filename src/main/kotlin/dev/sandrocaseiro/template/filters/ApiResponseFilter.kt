@@ -17,12 +17,13 @@ class ApiResponseFilter : ContainerResponseFilter {
     lateinit var headers: HttpHeaders
 
     override fun filter(requestContext: ContainerRequestContext, responseContext: ContainerResponseContext) {
-        if (responseContext.hasEntity() && responseContext.entityClass != DResponse::class.java
-            && responseContext.entityClass != DAuthTokenResp::class.java) {
-            val messageSource = LocalizedMessageSource.getAppMessages(headers)
-            val message = messageSource.success()
+        if (!responseContext.hasEntity() || responseContext.entityClass == DResponse::class.java
+            || responseContext.entityClass != DAuthTokenResp::class.java)
+            return;
 
-            responseContext.entity = DResponse.ok(responseContext.entity, AppErrors.SUCCESS.code, message)
-        }
+        val messageSource = LocalizedMessageSource.getAppMessages(headers)
+        val message = messageSource.success()
+
+        responseContext.entity = DResponse.ok(responseContext.entity, AppErrors.SUCCESS.code, message)
     }
 }
