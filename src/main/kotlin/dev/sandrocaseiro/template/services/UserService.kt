@@ -7,6 +7,7 @@ import dev.sandrocaseiro.template.repositories.UserRepository
 import dev.sandrocaseiro.template.security.IAuthenticationInfo
 import io.quarkus.hibernate.orm.panache.kotlin.PanacheQuery
 import io.quarkus.panache.common.Page
+import io.quarkus.panache.common.Sort
 import java.math.BigDecimal
 import javax.enterprise.context.RequestScoped
 import javax.transaction.Transactional
@@ -63,7 +64,7 @@ class UserService(
 
     fun searchByCpf(cpf: String): List<EUser> = userRepository.searchByCpf(cpf)
 
-    fun findAllActive(page: Page): PanacheQuery<EUser> = userRepository.findAllActive(page)
+    fun findAllActive(sort: Sort?, page: Page): PanacheQuery<EUser> = userRepository.findAllActive(sort, page)
 
     fun findAll(): List<EUser> = userRepository.findAll().list()
 }

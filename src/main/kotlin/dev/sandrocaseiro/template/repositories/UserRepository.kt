@@ -5,6 +5,7 @@ import dev.sandrocaseiro.template.models.jpa.JUserGroup
 import io.quarkus.hibernate.orm.panache.kotlin.PanacheQuery
 import io.quarkus.hibernate.orm.panache.kotlin.PanacheRepositoryBase
 import io.quarkus.panache.common.Page
+import io.quarkus.panache.common.Sort
 import java.math.BigDecimal
 import javax.enterprise.context.ApplicationScoped
 
@@ -31,8 +32,11 @@ class UserRepository: PanacheRepositoryBase<EUser, Int> {
             mapOf("cpf" to cpf)
         ).list()
 
-    fun findAllActive(page: Page): PanacheQuery<EUser>
-        = find("select u from User u inner join fetch u.group where u.active = true").page(page)
-
-    fun findAllList(): List<EUser> = find("select u from User u inner join fetch u.group").list()
+    //REMARKS: Page queries don't work with fetch joins
+    fun findAllActive(sort: Sort?, page: Page): PanacheQuery<EUser> {
+        val queryString = "from User u where u.active = true"
+        val query: PanacheQuery<EUser> =
+            if (sort != null) find(queryString, sort) else find(queryString)
+        return query.page(page)
+    }
 }

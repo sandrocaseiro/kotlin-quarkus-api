@@ -31,6 +31,10 @@ abstract class BaseExceptionMapper<T: Throwable>: ExceptionMapper<T> {
         return AppException.of(appError).toResponse(messageSource)
     }
 
+    fun toResponse(appError: AppErrors, error: String): Response {
+        return AppException.of(appError).toResponse(error)
+    }
+
     fun toResponse(appError: AppErrors, errors: List<DResponse.Error>): Response {
         return AppException.of(appError).toResponse(errors)
     }

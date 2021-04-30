@@ -12,6 +12,11 @@ fun AppException.toResponse(msg: AppMessages): Response = Response.status(this.e
     .entity(DResponse.notOk(this.error.code, this.error.messageFn(msg)))
     .build()
 
+fun AppException.toResponse(error: String): Response = Response.status(this.error.httpStatus)
+    .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
+    .entity(DResponse.notOk(this.error.code, error))
+    .build()
+
 fun AppException.toResponse(errors: List<DResponse.Error>): Response = Response.status(this.error.httpStatus)
     .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
     .entity(DResponse.notOk(errors))

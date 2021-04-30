@@ -1,12 +1,15 @@
 package dev.sandrocaseiro.template.controllers
 
 import dev.sandrocaseiro.template.mappers.*
+import dev.sandrocaseiro.template.models.DPage
 import dev.sandrocaseiro.template.models.DResponse
 import dev.sandrocaseiro.template.models.domain.EUser
 import dev.sandrocaseiro.template.models.dto.*
 import dev.sandrocaseiro.template.models.jpa.JUserGroup
 import dev.sandrocaseiro.template.security.IAuthenticationInfo
 import dev.sandrocaseiro.template.services.UserService
+import dev.sandrocaseiro.template.utils.getPageable
+import io.quarkus.hibernate.orm.panache.kotlin.PanacheQuery
 import io.quarkus.security.Authenticated
 import org.eclipse.microprofile.openapi.annotations.Operation
 import org.eclipse.microprofile.openapi.annotations.enums.ParameterIn
@@ -16,10 +19,12 @@ import org.eclipse.microprofile.openapi.annotations.parameters.Parameter
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponses
 import org.eclipse.microprofile.openapi.annotations.tags.Tag
+import org.jboss.resteasy.spi.HttpRequest
 import javax.annotation.security.PermitAll
 import javax.enterprise.context.RequestScoped
 import javax.validation.Valid
 import javax.ws.rs.*
+import javax.ws.rs.core.Context
 import javax.ws.rs.core.MediaType
 import javax.ws.rs.core.Response
 
@@ -162,19 +167,20 @@ class UserController(
         return user.toGroupDto()
     }
 
-// TODO: Implement parameter mapping: https://quarkus.io/guides/resteasy-reactive#parameter-mapping
-//    @GET
-//    @Path("/v1/users/active")
-//    @Operation(summary = "Get all active users", description = "Get all active users with paging")
-//    @APIResponses(value = [
-//        APIResponse(responseCode = "200", description = "OK"),
-//        APIResponse(responseCode = "500", description = "Server error", content = [Content(schema = Schema(implementation = DResponse::class))])
-//    ])
-//    fun findAll(pageable: DPageable): DPage<DUserGroupResp> {
-//        val users: Page<EUser> = userService.findAllActive(pageable.asPageable())
-//
-//        return users.toDto { it.toGroupDto() }
-//    }
+    // REMARKS: Not possible yet to map various parameters to just one object. Using request properties for now
+    @GET
+    @Path("/v1/users/active")
+    @Operation(summary = "Get all active users", description = "Get all active users with paging")
+    @APIResponses(value = [
+        APIResponse(responseCode = "200", description = "OK"),
+        APIResponse(responseCode = "500", description = "Server error", content = [Content(schema = Schema(implementation = DResponse::class))])
+    ])
+    fun findAll(@Context req: HttpRequest): DPage<DUserGroupResp> {
+        val pageable = req.getPageable()
+        val users: PanacheQuery<EUser> = userService.findAllActive(pageable.sort, pageable.page)
+
+        return users.toDto { it.toGroupDto() }
+    }
 
     @GET
     @Path("/v1/users/report")
