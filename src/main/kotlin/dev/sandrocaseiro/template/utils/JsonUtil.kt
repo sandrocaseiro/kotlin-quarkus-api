@@ -1,6 +1,7 @@
 package dev.sandrocaseiro.template.utils
 
 import com.fasterxml.jackson.core.JsonProcessingException
+import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.databind.module.SimpleModule
@@ -55,4 +56,14 @@ inline fun <reified T> InputStream?.deserialize(): T? {
     }
 }
 
-//inline fun <reified T> Response.Body?.deserialize(): T? = this?.asInputStream().deserialize()
+fun InputStream?.deserializeTree(): JsonNode? {
+    return if (this == null) null else try {
+        MAPPER.readTree(this)
+    }
+    catch (e: IOException) {
+        LOGGER.error("Json deserialization error", e)
+        null
+    }
+}
+
+inline fun <reified T> JsonNode.deserialize(): T = MAPPER.readValue<T>(this.traverse())

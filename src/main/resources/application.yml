@@ -1,5 +1,5 @@
 log:
-  full-format: "%d{yyyy-MM-dd HH:mm:ss,SSS} %-5p [%c{3.}] (%t) %s%e%n"
+  full-format: "%d{yyyy-MM-dd HH:mm:ss,SSS} %-5p [%c] (%t) %s%e%n"
   prod-format: "%d{yyyy-MM-dd HH:mm:ss,SSS} %-5p [%c{3.}] (%t) project_id=%X{project_id} | user=%X{user} | action=%X{action} | activity=%X{activity} | src_ip=%X{src_ip} | applog=%X{applog} | message=%m%n"
 
 app:
@@ -7,6 +7,16 @@ app:
   description: @description@
   version: @version@
   id: ID-99999
+
+cep-api/mp-rest/url: https://viacep.com.br/ws/
+cep-api/mp-rest/scope: javax.inject.Singleton
+cep-api/mp-rest/connectTimeout: 5000
+cep-api/mp-rest/readTimeout: 5000
+cep-api/mp-rest/followRedirects: false
+
+apis:
+  cep:
+    apiKey: 1234
 
 jwt:
   refresh-expiration: 90000
@@ -116,6 +126,10 @@ smallrye:
       min-level: TRACE
       level: INFO
       category:
+        dev.sandrocaseiro.template:
+          level: TRACE
+        org.apache.http:
+          level: DEBUG
         org.hibernate.type.descriptor.sql.BasicBinder:
           level: TRACE
         io.quarkus.smallrye.jwt:
@@ -124,6 +138,8 @@ smallrye:
           level: INFO
       console:
         format: ${log.full-format}
+    tls:
+      trust-all: true
   smallrye:
     jwt:
       new-token:
@@ -155,6 +171,7 @@ smallrye:
         format: ${log.prod-format}
         path: /appserver/logs/api-template/api-template.log
         file-suffix: .yyyy-MM-dd
+
 "%local":
   quarkus:
     config:
@@ -177,3 +194,5 @@ smallrye:
       root-path: /api
     log:
       min-level: TRACE
+    tls:
+      trust-all: true

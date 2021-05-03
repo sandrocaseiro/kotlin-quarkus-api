@@ -26,7 +26,6 @@ class LogRequestFilter: ContainerRequestFilter, ContainerResponseFilter {
     }
 
     override fun filter(requestContext: ContainerRequestContext, responseContext: ContainerResponseContext) {
-        logger.info("Teste Handler")
         logService.clear()
     }
 }

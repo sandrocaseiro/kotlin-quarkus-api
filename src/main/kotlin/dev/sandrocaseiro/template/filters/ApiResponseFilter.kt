@@ -18,7 +18,7 @@ class ApiResponseFilter : ContainerResponseFilter {
 
     override fun filter(requestContext: ContainerRequestContext, responseContext: ContainerResponseContext) {
         if (!responseContext.hasEntity() || responseContext.entityClass == DResponse::class.java
-            || responseContext.entityClass != DAuthTokenResp::class.java)
+            || responseContext.entityClass == DAuthTokenResp::class.java)
             return;
 
         val messageSource = LocalizedMessageSource.getAppMessages(headers)
