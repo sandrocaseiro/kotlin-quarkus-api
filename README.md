@@ -2,7 +2,12 @@
 
 This project uses Quarkus, the Supersonic Subatomic Java Framework.
 
-If you want to learn more about Quarkus, please visit its website: https://quarkus.io/ .
+##Remarks
+
+- Query with paging using fetch joins don't work because of the count query
+- Custom authorization annotations aren't implemented as they should. The correct way is to create an extension,
+  but is much more complicated
+- Cucumber integration not working as it should, only simpler scenarios are runnning
 
 ## Running the application in dev mode
 
@@ -10,6 +15,11 @@ You can run your application in dev mode that enables live coding using:
 ```shell script
 ./gradlew quarkusDev
 ```
+or with local profile:
+```shell script
+./gradlew quarkusLocal
+```
+
 
 ## Packaging and running the application
 

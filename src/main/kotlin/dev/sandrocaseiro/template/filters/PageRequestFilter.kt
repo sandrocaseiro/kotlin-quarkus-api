@@ -53,7 +53,7 @@ class PageRequestFilter: ContainerRequestFilter {
             val signal: String = matcher.group(1)
             val field: String = matcher.group(2)
 
-            if (signal.isNotEmpty() && "-" != signal)
+            if (field.isEmpty() || (signal.isNotEmpty() && "-" != signal))
                 throw PageableBadRequestException(SORT_PARAM)
 
             sortFields.add(DPageable.Sort(field, "-" == signal))

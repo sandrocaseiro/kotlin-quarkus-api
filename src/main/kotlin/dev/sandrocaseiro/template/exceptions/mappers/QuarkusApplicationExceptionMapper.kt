@@ -1,7 +1,9 @@
-package dev.sandrocaseiro.template.handlers
+package dev.sandrocaseiro.template.exceptions.mappers
 
 import dev.sandrocaseiro.template.exceptions.AppErrors
+import dev.sandrocaseiro.template.exceptions.AppException
 import dev.sandrocaseiro.template.models.DResponse
+import dev.sandrocaseiro.template.utils.toResponse
 import io.quarkus.arc.ArcUndeclaredThrowableException
 import io.quarkus.security.AuthenticationFailedException
 import io.quarkus.security.UnauthorizedException
@@ -28,6 +30,7 @@ class QuarkusApplicationExceptionMapper: BaseExceptionMapper<ApplicationExceptio
             is AuthenticationFailedException -> toResponse(AppErrors.INVALID_TOKEN_ERROR)
             is ArcUndeclaredThrowableException -> treatArcException(exception.cause as ArcUndeclaredThrowableException)
             is ConstraintViolationException -> treatConstraintValidationException(exception.cause as ConstraintViolationException)
+            is AppException -> (exception.cause as AppException).toResponse(messageSource)
             else -> toResponse(AppErrors.SERVER_ERROR)
         }
     }

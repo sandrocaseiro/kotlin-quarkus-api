@@ -7,6 +7,8 @@ import dev.sandrocaseiro.template.models.domain.EUser
 import dev.sandrocaseiro.template.models.dto.*
 import dev.sandrocaseiro.template.models.jpa.JUserGroup
 import dev.sandrocaseiro.template.security.IAuthenticationInfo
+import dev.sandrocaseiro.template.security.permissions.CanAccessUser
+import dev.sandrocaseiro.template.security.permissions.IsGroup
 import dev.sandrocaseiro.template.services.UserService
 import dev.sandrocaseiro.template.utils.getPageable
 import io.quarkus.hibernate.orm.panache.kotlin.PanacheQuery
@@ -75,7 +77,7 @@ class UserController(
 
     @PATCH
     @Path("/v1/users/{id}/balance")
-    //@PreAuthorize("isGroup(1)")
+    @IsGroup(1)
     @Operation(summary = "Update User's balance", description = "Update an user's balance")
     @APIResponses(value = [
         APIResponse(responseCode = "204", description = "Updated"),
@@ -154,7 +156,7 @@ class UserController(
 
     @GET
     @Path("/v1/users/{id}")
-    //@PreAuthorize("canAccessUser(#id)")
+    @CanAccessUser("id")
     @Operation(summary = "Get user", description = "Get user by Id")
     @APIResponses(value = [
         APIResponse(responseCode = "200", description = "OK", content = [Content(schema = Schema(implementation = DResponseDUserGroupResp::class))]),

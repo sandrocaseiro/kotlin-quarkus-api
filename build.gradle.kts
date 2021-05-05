@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.cli.jvm.main
-
 group = "dev.sandrocaseiro"
 version = "1.0.0-SNAPSHOT"
 description = "Kotlin Quarkus Template API"

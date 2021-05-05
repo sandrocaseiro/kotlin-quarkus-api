@@ -4,4 +4,6 @@ interface IAuthenticationInfo {
     val isAuthenticated: Boolean
 
     val id: Int
+
+    val groupId: Int
 }

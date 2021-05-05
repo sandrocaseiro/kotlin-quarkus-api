@@ -6,4 +6,7 @@ class AuthenticationInfo(
 ) : IAuthenticationInfo {
     override val id: Int
         get() = userPrincipal?.id ?: 0
+
+    override val groupId: Int
+        get() = userPrincipal?.groupId ?: 0
 }

@@ -1,4 +1,4 @@
-package dev.sandrocaseiro.template.handlers
+package dev.sandrocaseiro.template.exceptions.mappers
 
 import dev.sandrocaseiro.template.exceptions.AppErrors
 import dev.sandrocaseiro.template.exceptions.AppException
